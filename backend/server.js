@@ -1,9 +1,14 @@
 import express from "express";
 import cors from "cors";
-import dotenv from "dotenv";
+import "dotenv/config.js";
+
 import connectDB from "./config/dbConfig.js";
 
-dotenv.config();
+import stateRoute from "./routes/State.route.js";
+import cityRoute from "./routes/City.route.js";
+import propertyRoute from "./routes/Property.route.js";
+
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -20,6 +25,10 @@ connectDB();
 app.get("/", (req, res) => {
   res.json({ message: "API is live" });
 });
+
+app.use("/api/state", stateRoute);
+app.use("/api/city", cityRoute);
+app.use("/api/property", propertyRoute);
 
 
 app.listen(PORT, () => {
