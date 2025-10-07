@@ -2,7 +2,7 @@ import React from 'react'
 
 import {BrowserRouter, Routes, Route, } from "react-router-dom";
 
-import Navbar from "./Component/Navbar.jsx"
+import Navbar from "./components/Navbar.jsx"
 
 import Home from "./pages/Home.jsx"
 import State from "./pages/State.jsx"
@@ -23,6 +23,7 @@ export default function App() {
         <Route path="/" element={<Home/>} />
         <Route path="/State" element={<State/>} />
         <Route path="/City" element={<City/>} />
+        <Route path="/City/by/:id" element={<City/>} />
         <Route path="/Properties" element={<Properties/>} />
 
       </Routes>
