@@ -1,11 +1,12 @@
 import React,{usecity,useEffect, useState} from "react";
 const apiUrl = import.meta.env.VITE_API_URL
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export default function city() {
   let { id } = useParams();
   let [city,setcity]= useState([]);
+  let navigate = useNavigate();
 
   useEffect(() => {
     async function fetchData() {
@@ -40,7 +41,12 @@ export default function city() {
             <img className="w-full h-40"  src={city.cityPoster} alt="" />
             <h2>{city.name}</h2>
             <p>{city.stateId.stateName} | {city.stateId.countyName}</p>
-            <button className="bg-blue-500 text-white p-2" >Details</button>
+            <button
+              onClick={()=>{
+                navigate(`/Properties/by/${city._id}`)
+              }}
+             className="bg-blue-500 text-white p-2" 
+            >Details</button>
           </div>
         ))
       }

@@ -12,7 +12,7 @@ export const getCityById = async (req, res) => {
 
 export const getCityByStateId = async (req, res) => {
    let id = req.params.id;
-   console.log(id);
+   // console.log(id);
    let City = await CityModel.find({stateId:id}).populate("stateId");
    res.json(City);
 };

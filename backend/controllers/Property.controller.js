@@ -10,6 +10,13 @@ export const getPropertyById = async (req, res) => {
    res.json(Property);
 };
 
+export const getPropertyByCityId = async (req, res) => {
+   let { id } = req.params;
+   // console.log(id);
+   let Property = await PropertyModel.find({ cityId: id});
+   res.json(Property);
+}
+
 export const createProperty = async (req, res) => {
    let Property = await PropertyModel.create(req.body);
    res.json(Property);

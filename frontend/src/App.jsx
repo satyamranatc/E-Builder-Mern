@@ -25,6 +25,7 @@ export default function App() {
         <Route path="/City" element={<City/>} />
         <Route path="/City/by/:id" element={<City/>} />
         <Route path="/Properties" element={<Properties/>} />
+        <Route path="/Properties/by/:id" element={<Properties/>} />
 
       </Routes>
       
