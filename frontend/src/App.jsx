@@ -8,6 +8,7 @@ import Home from "./pages/Home.jsx"
 import State from "./pages/State.jsx"
 import City from "./pages/City.jsx"
 import Properties from "./pages/Properties.jsx"
+import Footer from './components/Footer.jsx';
 
 
 
@@ -28,7 +29,7 @@ export default function App() {
         <Route path="/Properties/by/:id" element={<Properties/>} />
 
       </Routes>
-      
+      <Footer/>
       </BrowserRouter>
 
     </div>
