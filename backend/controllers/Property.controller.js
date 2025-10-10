@@ -13,7 +13,7 @@ export const getPropertyById = async (req, res) => {
 export const getPropertyByCityId = async (req, res) => {
    let { id } = req.params;
    // console.log(id);
-   let Property = await PropertyModel.find({ cityId: id});
+   let Property = await PropertyModel.find({ cityId: id}).populate("cityId");
    res.json(Property);
 }
 

@@ -17,6 +17,8 @@ export default function PropertyAdmin() {
     propertyPoster: "",
     propertyType: "",
     cityId: "",
+    price: "",
+    description: "",
   });
 
   useEffect(() => {
@@ -38,7 +40,14 @@ export default function PropertyAdmin() {
   }, [refresh]);
 
   function reset() {
-    setFormData({ name: "", propertyPoster: "", propertyType: "", cityId: "" });
+    setFormData({
+      name: "",
+      propertyPoster: "",
+      propertyType: "",
+      cityId: "",
+      price: "",
+      description: "",
+    });
   }
 
   async function deleteProperty(id) {
@@ -59,6 +68,8 @@ export default function PropertyAdmin() {
       propertyPoster: property.propertyPoster,
       propertyType: property.propertyType,
       cityId: property.cityId?._id || "",
+      price: property.price,
+      description: property.description,
     });
     setShowForm(true);
   }
@@ -169,6 +180,23 @@ export default function PropertyAdmin() {
                   </option>
                 ))}
               </select>
+              <input
+                type="number"
+                placeholder="Price"
+                min="0"
+                value={formData.price}
+                onChange={(e) => setFormData({ ...formData, price: e.target.value })}
+                required
+                className="border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-teal-500 outline-none w-full"
+              />
+              <textarea
+                placeholder="Description"
+                value={formData.description}
+                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                required
+                className="border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-teal-500 outline-none w-full col-span-1 sm:col-span-2 resize-none"
+                rows={3}
+              />
             </div>
 
             <motion.button
@@ -199,13 +227,15 @@ export default function PropertyAdmin() {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6 }}
         >
-          <table className="w-full min-w-[600px] max-w-6xl mx-auto bg-white border border-gray-200 shadow-md rounded-xl overflow-hidden">
+          <table className="w-full min-w-[700px] max-w-6xl mx-auto bg-white border border-gray-200 shadow-md rounded-xl overflow-hidden">
             <thead className="bg-gradient-to-r from-teal-500 to-cyan-500 text-white">
               <tr>
                 <th className="py-3 px-4 text-left font-semibold">Name</th>
                 <th className="py-3 px-4 text-left font-semibold">Poster</th>
                 <th className="py-3 px-4 text-left font-semibold">Type</th>
                 <th className="py-3 px-4 text-left font-semibold">City</th>
+                <th className="py-3 px-4 text-left font-semibold">Price</th>
+                <th className="py-3 px-4 text-left font-semibold">Description</th>
                 <th className="py-3 px-4 text-center font-semibold">Actions</th>
               </tr>
             </thead>
@@ -230,6 +260,8 @@ export default function PropertyAdmin() {
                     </td>
                     <td className="py-3 px-4 text-gray-600">{item.propertyType}</td>
                     <td className="py-3 px-4 text-gray-600">{item.cityId?.name || "—"}</td>
+                    <td className="py-3 px-4 text-gray-600">₹{item.price}</td>
+                    <td className="py-3 px-4 text-gray-600">{item.description}</td>
                     <td className="py-3 px-4 text-center flex flex-col sm:flex-row justify-center items-center gap-2 sm:gap-3">
                       <motion.button
                         onClick={() => handleUpdate(item)}
