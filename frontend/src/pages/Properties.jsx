@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { motion } from "framer-motion";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import PropertyHero from "../assets/Property/property.jpg"; // optional image
 const apiUrl = import.meta.env.VITE_API_URL;
 
 export default function Property() {
   const { id } = useParams();
   const [properties, setProperties] = useState([]);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchData() {
@@ -100,6 +102,7 @@ export default function Property() {
 
               
               <motion.button
+                onClick={()=>navigate(`/Property/${property._id}`)}
                 className="w-full py-2.5 rounded-lg bg-gradient-to-r from-[#b48b3c] to-[#a67c2b] text-black font-semibold hover:from-[#cfa84c] hover:to-[#b48b3c] transition-all duration-300 shadow-md"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.97 }}

@@ -6,14 +6,19 @@ export const getAllProperties = async (req, res) => {
 };
 
 export const getPropertyById = async (req, res) => {
-   let Property = await PropertyModel.findById(req.params.id).populate("cityId");
+   let Property = await PropertyModel.findById(req.params.id).populate({
+      path: "cityId",
+      populate: {
+         path: "stateId", // this is inside cityId
+      },
+   });
    res.json(Property);
 };
 
 export const getPropertyByCityId = async (req, res) => {
    let { id } = req.params;
    // console.log(id);
-   let Property = await PropertyModel.find({ cityId: id}).populate("cityId");
+   let Property = await PropertyModel.find({ cityId: id }).populate("cityId");
    res.json(Property);
 }
 
