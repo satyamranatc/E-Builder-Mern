@@ -1,103 +1,118 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-const apiUrl = import.meta.env.VITE_API_URL;
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import StateHome from "../media/State/State.webp";
+import StateHome from "../assets/State/State.webp";
+
+const apiUrl = import.meta.env.VITE_API_URL;
 
 export default function State() {
-  let navigate = useNavigate();
-  let [state, setState] = useState([]);
+  const [states, setStates] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchData() {
       try {
         const response = await axios.get(`${apiUrl}/state`);
-        setState(response.data);
+        setStates(response.data);
       } catch (error) {
-        console.error(error);
+        console.error("Error fetching states:", error);
       }
     }
-
     fetchData();
   }, []);
+
   return (
-    <div>
-      <motion.div className="w-full h-[30vw] relative overflow-hidden">
+    <div className="bg-[#0a0a0a] min-h-screen text-white">
+      
+      <motion.div
+        className="relative w-full h-[30vw] flex justify-center items-center overflow-hidden"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1 }}
+      >
         <motion.img
           src={StateHome}
-          alt=""
-          className="h-full w-full object-cover brightness-25"
-          initial={{ y: -100, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 1, ease: "easeOut" }}
+          alt="State Cover"
+          className="absolute inset-0 h-full w-full object-cover brightness-50"
+          initial={{ scale: 1.1 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 2, ease: "easeOut" }}
         />
         <motion.h1
-          className="absolute z-10 top-30 left-1/2 -translate-x-1/2 text-white text-5xl text-center px-4"
+          className="relative z-10 text-3xl md:text-5xl font-bold text-center leading-snug"
           initial={{ y: -50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 1, delay: 1, ease: "easeOut" }}>
-          Explore Homes Across Every Corner of India
+          transition={{ duration: 1, delay: 0.5 }}
+        >
+          Explore Homes Across <br /> Every Corner of{" "}
+          <span className="text-[#b48b3c]">India</span>
         </motion.h1>
       </motion.div>
-      <hr />
-      <div className="flex flex-wrap gap-6 p-6">
-  {state.map((state, index) => (
-    <motion.div
-      className="bg-white text-black rounded-xl shadow-md hover:shadow-2xl transition-all duration-300 w-[calc(25%-1.5rem)] overflow-hidden border border-gray-200"
-      key={state._id}
-      initial={{ y: -80, opacity: 0, scale: 0.9 }}
-      animate={{ y: 0, opacity: 1, scale: 1 }}
-      transition={{ 
-        duration: 0.2, 
-        delay: index * 0.12,
-        ease: [0.25, 0.46, 0.45, 0.94]
-      }}
-      whileHover={{ 
-        scale: 1.03,
-        y: -8,
-        transition: { duration: 0.3 }
-      }}
-    >
-      <motion.img 
-        className="w-full h-40 object-cover" 
-        src={state.statePoster} 
-        alt={state.stateName}
-        whileHover={{ scale: 1.1 }}
-        transition={{ duration: 0.4 }}
-      />
-      <div className="p-5">
-        <h2 className="font-bold text-xl mb-2 text-gray-800">{state.stateName}</h2>
-        <p className="text-gray-500 text-sm mb-5">{state.countyName}</p>
-        <motion.button
-          onClick={() => {
-            navigate(`/City/by/${state._id}`);
-          }}
-          className="bg-gradient-to-r from-blue-500 to-blue-700 text-white py-2 px-4 rounded-lg w-full font-semibold shadow-lg hover:shadow-xl transition-all duration-300 relative overflow-hidden group"
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-        >
-          <span className="relative z-10 flex items-center justify-center gap-2">
-            View Details
-            <motion.span
-              initial={{ x: 0 }}
-              whileHover={{ x: 5 }}
-              transition={{ duration: 0.3 }}
-            >
-              →
-            </motion.span>
-          </span>
-          <motion.div 
-            className="absolute inset-0 bg-gradient-to-r from-blue-600 to-blue-800"
-            initial={{ x: '-100%' }}
-            whileHover={{ x: 0 }}
-            transition={{ duration: 0.3 }}
-          />
-        </motion.button>
+
+      
+      <hr className="border-[#b48b3c]/40 my-10 mx-auto w-[85%]" />
+
+      
+      <div className="max-w-7xl mx-auto px-6 grid gap-8 sm:grid-cols-2 lg:grid-cols-3 pb-5">
+        {states.map((item, index) => (
+          <motion.div
+            key={item._id}
+            className="relative bg-[#111]/80 rounded-xl overflow-hidden shadow-lg border border-[#b48b3c]/30 hover:border-[#b48b3c]/70 backdrop-blur-md transition-all duration-300"
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+              duration: 0.6,
+              delay: index * 0.12,
+              ease: [0.25, 0.46, 0.45, 0.94],
+            }}
+            whileHover={{ y: -10, scale: 1.02 }}
+          >
+            
+            <div className="relative overflow-hidden">
+              <motion.img
+                src={item.statePoster}
+                alt={item.stateName}
+                className="w-full h-48 object-cover transition-transform duration-500 hover:scale-110"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent"></div>
+            </div>
+
+            
+            <div className="p-5">
+              <h2 className="text-2xl font-semibold text-[#b48b3c] mb-2">
+                {item.stateName}
+              </h2>
+              <p className="text-gray-400 text-sm mb-5 italic">
+                {item.countyName}
+              </p>
+
+              
+              <motion.button
+                onClick={() => navigate(`/City/by/${item._id}`)}
+                className="w-full py-2.5 rounded-lg bg-gradient-to-r from-[#b48b3c] to-[#a67c2b] text-black font-semibold hover:from-[#cfa84c] hover:to-[#b48b3c] transition-all duration-300 shadow-md"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.97 }}
+              >
+                View Cities →
+              </motion.button>
+            </div>
+          </motion.div>
+        ))}
       </div>
-    </motion.div>
-  ))}
-</div>
+
+      
+      {states.length === 0 && (
+        <div className="text-center mt-20 text-gray-400">
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1 }}
+          >
+            Loading states... please wait.
+          </motion.p>
+        </div>
+      )}
     </div>
   );
 }
