@@ -3,6 +3,8 @@ import axios from "axios";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaPlus, FaTimes, FaTrash, FaEdit } from "react-icons/fa";
 
+const apiURL = import.meta.env.VITE_API_URL;
+
 export default function CityAdmin() {
   const [cities, setCities] = useState([]);
   const [states, setStates] = useState([]);
@@ -22,8 +24,8 @@ export default function CityAdmin() {
     async function fetchData() {
       try {
         const [cityRes, stateRes] = await Promise.all([
-          axios.get("http://localhost:5500/api/city"),
-          axios.get("http://localhost:5500/api/state"),
+          axios.get(`${apiURL}/city`),
+          axios.get(`${apiURL}/state`),
         ]);
         setCities(cityRes.data);
         setStates(stateRes.data);
@@ -53,7 +55,7 @@ export default function CityAdmin() {
   async function deleteCity(id) {
     if (confirm("Are you sure you want to delete this city?")) {
       try {
-        await axios.delete(`http://localhost:5500/api/city/${id}`);
+        await axios.delete(`${apiURL}/city${id}`);
         setCities(cities.filter((item) => item._id !== id));
       } catch (err) {
         console.error("Error deleting city:", err);
@@ -65,9 +67,9 @@ export default function CityAdmin() {
     e.preventDefault();
     try {
       if (editingId) {
-        await axios.put(`http://localhost:5500/api/city/${editingId}`, formData);
+        await axios.put(`${apiURL}/city/${editingId}`, formData);
       } else {
-        await axios.post("http://localhost:5500/api/city", formData);
+        await axios.post(`${apiURL}/city`, formData);
       }
       reset();
       setEditingId(null);

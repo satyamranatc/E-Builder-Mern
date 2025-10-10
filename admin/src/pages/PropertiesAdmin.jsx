@@ -3,6 +3,8 @@ import axios from "axios";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaPlus, FaTimes, FaTrash, FaEdit } from "react-icons/fa";
 
+const apiURL = import.meta.env.VITE_API_URL;
+
 export default function PropertyAdmin() {
   const [properties, setProperties] = useState([]);
   const [cities, setCities] = useState([]);
@@ -25,8 +27,8 @@ export default function PropertyAdmin() {
     async function fetchData() {
       try {
         const [propertyRes, cityRes] = await Promise.all([
-          axios.get("http://localhost:5500/api/property"),
-          axios.get("http://localhost:5500/api/city"),
+          axios.get(`${apiURL}/property`),
+          axios.get(`${apiURL}/city`),
         ]);
         setProperties(propertyRes.data);
         setCities(cityRes.data);
@@ -53,7 +55,7 @@ export default function PropertyAdmin() {
   async function deleteProperty(id) {
     if (confirm("Are you sure you want to delete this property?")) {
       try {
-        await axios.delete(`http://localhost:5500/api/property/${id}`);
+        await axios.delete(`${apiURL}/property/${id}`);
         setProperties(properties.filter((item) => item._id !== id));
       } catch (err) {
         console.error("Error deleting property:", err);
@@ -78,9 +80,9 @@ export default function PropertyAdmin() {
     e.preventDefault();
     try {
       if (editingId) {
-        await axios.put(`http://localhost:5500/api/property/${editingId}`, formData);
+        await axios.put(`${apiURL}/property/${editingId}`, formData);
       } else {
-        await axios.post("http://localhost:5500/api/property", formData);
+        await axios.post(`${apiURL}/property`, formData);
       }
       reset();
       setEditingId(null);

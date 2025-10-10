@@ -3,6 +3,8 @@ import axios from "axios";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaPlus, FaTimes, FaTrash, FaEdit } from "react-icons/fa";
 
+const apiURL = import.meta.env.VITE_API_URL;
+
 export default function StateAdmin() {
   const [states, setStates] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -17,10 +19,11 @@ export default function StateAdmin() {
     statePoster: "",
   });
 
+
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await axios.get("http://localhost:5500/api/state");
+        const res = await axios.get(`${apiURL}/state`);
         setStates(res.data);
       } catch (err) {
         console.error("Error fetching states:", err);
@@ -42,7 +45,7 @@ export default function StateAdmin() {
   async function deleteState(id) {
     if (confirm("Are you sure you want to delete this state?")) {
       try {
-        await axios.delete(`http://localhost:5500/api/state/${id}`);
+        await axios.delete(`${apiURL}/state/${id}`);
         setStates(states.filter((item) => item._id !== id));
       } catch (err) {
         console.error("Delete failed:", err);
@@ -64,9 +67,9 @@ export default function StateAdmin() {
     e.preventDefault();
     try {
       if (editingId) {
-        await axios.put(`http://localhost:5500/api/state/${editingId}`, formData);
+        await axios.put(`${apiURL}/state/${editingId}`, formData);
       } else {
-        await axios.post("http://localhost:5500/api/state", formData);
+        await axios.post(`${apiURL}/state`, formData);
       }
       reset();
       setEditingId(null);
@@ -109,7 +112,7 @@ export default function StateAdmin() {
             whileTap={{ scale: 0.95 }}
           >
             {showForm ? <FaTimes /> : <FaPlus />}{" "}
-            {showForm ? "Close" : editingId ? "Edit State" : "Add State"}
+            {showForm ? "Close" :  "Add State"}
           </motion.button>
         </div>
       </motion.div>
